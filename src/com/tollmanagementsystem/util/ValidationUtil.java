@@ -8,14 +8,16 @@ import java.util.regex.Pattern;
 /**
  *
  * @author samiryadav
+ * LMUID: 23048505
  */
 public class ValidationUtil {
     
     // Regular expression patterns
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z\\s]+$");
     private static final Pattern CITIZEN_ID_PATTERN = Pattern.compile("^\\d{7}$");
-    private static final Pattern VEHICLE_NUMBER_PATTERN = Pattern.compile("^[A-Z0-9]{1,10}$");
-    private static final Pattern LICENSE_NUMBER_PATTERN = Pattern.compile("^[A-Z0-9]{1,15}$");
+    private static final Pattern VEHICLE_NUMBER_PATTERN = Pattern.compile("^\\d{4}$");
+    private static final Pattern VEHICLE_CATEGORY = Pattern.compile("^[A-Za-z ]+$");
+    private static final Pattern LICENSE_NUMBER_PATTERN = Pattern.compile("^[A-Z0-9]{9}$");
     private static final Pattern ADDRESS_PATTERN = Pattern.compile("^.+$");
     private static final Pattern STATE_PATTERN = Pattern.compile("^[A-Za-z\\s]{2,50}$");
     private static final Pattern TOLL_PLAZA_NAME_PATTERN = Pattern.compile("^[A-Za-z0-9\\s&.-]{2,100}$");
@@ -43,11 +45,11 @@ public class ValidationUtil {
     /**
      * Validates if the CITIZEN ID is exactly 7 digits.
      *
-     * @param citizenId the CITIZEN ID to validate
+     * @param citizenshipNumber the CITIZEN ID to validate
      * @return true if valid, otherwise false
      */
-    public static boolean isValidCitizenId(String citizenId) {
-        return !isNullOrEmpty(citizenId) && CITIZEN_ID_PATTERN.matcher(citizenId).matches();
+    public static boolean isValidCitizenshipNumber(String citizenshipNumber) {
+        return !isNullOrEmpty(citizenshipNumber) && CITIZEN_ID_PATTERN.matcher(citizenshipNumber).matches();
     }
     
     /**
@@ -59,6 +61,17 @@ public class ValidationUtil {
     public static boolean isValidVehicleNumber(String vehicleNumber) {
         return !isNullOrEmpty(vehicleNumber) && VEHICLE_NUMBER_PATTERN.matcher(vehicleNumber).matches();
     }
+    
+    /**
+     * Validates if the vehicle category contains only uppercase and lowercase letters and spaces.
+     *
+     * @param vehicleCategory the vehicle category to validate
+     * @return true if valid, otherwise false
+     */
+    public static boolean isValidVehicleCategory(String vehicleCategory) {
+        return !isNullOrEmpty(vehicleCategory) && VEHICLE_CATEGORY.matcher(vehicleCategory).matches();
+    }
+
     
     /**
      * Validates if the license number contains only uppercase letters and digits.

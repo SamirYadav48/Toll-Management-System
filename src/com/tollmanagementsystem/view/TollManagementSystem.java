@@ -2,6 +2,8 @@
 package com.tollmanagementsystem.view;
 
 import java.awt.CardLayout;
+import com.tollmanagementsystem.controller.algorithms.SelectionSort;
+import com.tollmanagementsystem.controller.algorithms.BinarySearch;
 import com.tollmanagementsystem.controller.datastructure.CustomQueue;
 import com.tollmanagementsystem.model.TollModel;
 import com.tollmanagementsystem.util.ValidationUtil;
@@ -18,14 +20,14 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author samiryadav
+ * LMUID: 23048505
  */
 public class TollManagementSystem extends javax.swing.JFrame {
     private List<TollModel> tollList;
     private java.awt.CardLayout cardLayout;
-    private JComboBox<String> comboBoxVehicleType; // JComboBox for selecting vehicle type
     private final ValidationUtil validationUtil;
     private final Color errorColor = new Color(255, 51, 0);
-    private final Color yellowColor = new Color(239, 192, 32);
+    private final Color greenColor = new Color(34, 139, 34);
     
     
     
@@ -38,33 +40,6 @@ public class TollManagementSystem extends javax.swing.JFrame {
         initComponents();
         initializeData();
         validationUtil = new ValidationUtil(); //Initializing v
-        // Initialize the JComboBox with vehicle categories
-        String[] vehicleCategeory = {
-            "A - Motorcycle, Scooter",
-            "B - Car, Jeep",
-            "C - Tempo",
-            "C1 - E-Rickshaw",
-            "D - Power Tiller",
-            "E - Tractor",
-            "F - Minibus, MiniTruck",
-            "G - Truck, Bus, Lorry",
-            "H - Road Roller, Dozer",
-            "H1 - Dozer",
-            "H2 - Road Roller",
-            "I - Crane, Fire Brigade, Loader",
-            "I1 - Crane",
-            "I2 - Fire Brigade",
-            "I3 - Loader",
-            "J1 - Excavator",
-            "J2 - Backhoe Loader",
-            "J3 - Grader",
-            "J4 - Forklift",
-            "J5 - Other",
-            "K - Scooter, Moped"
-        };
-        comboBoxVehicleType = new JComboBox<>(vehicleCategeory); // Initialize JComboBox with vehicle types
-        
-        
     }
     
 
@@ -80,7 +55,7 @@ public class TollManagementSystem extends javax.swing.JFrame {
         pnlPages = new javax.swing.JPanel();
         pnlTitle = new javax.swing.JPanel();
         btnLogOut = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitlePages = new javax.swing.JLabel();
         jtpPages = new javax.swing.JTabbedPane();
         jpHomePage = new javax.swing.JPanel();
         pnlContext = new javax.swing.JPanel();
@@ -95,44 +70,56 @@ public class TollManagementSystem extends javax.swing.JFrame {
         jspTableContents = new javax.swing.JScrollPane();
         jtInformation = new javax.swing.JTable();
         pnlTextFields = new javax.swing.JPanel();
-        tfLicenseNumber = new javax.swing.JTextField();
-        tfCitizenName = new javax.swing.JTextField();
-        tfCitizenshipNumber = new javax.swing.JTextField();
-        tfVehicleNumber = new javax.swing.JTextField();
-        tfAddress = new javax.swing.JTextField();
-        cbVehicleCategeory = new javax.swing.JComboBox<>();
-        tfState = new javax.swing.JTextField();
-        tfPlazaName = new javax.swing.JTextField();
-        tfPlazaLocation = new javax.swing.JTextField();
+        txtFldLicenseNumber = new javax.swing.JTextField();
+        txtFldCitizenName = new javax.swing.JTextField();
+        txtFldCitizenshipNumber = new javax.swing.JTextField();
+        txtFldVehicleNumber = new javax.swing.JTextField();
+        txtFldAddress = new javax.swing.JTextField();
+        txtFldState = new javax.swing.JTextField();
+        txtFldPlazaName = new javax.swing.JTextField();
+        txtFldPlazaLocation = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        lblErrorMsgLicenseNumber = new javax.swing.JLabel();
+        lblErrorMsgCitizenName = new javax.swing.JLabel();
+        lblErrorMsgCitizenshipNumber = new javax.swing.JLabel();
+        lblErrorMsgVehicleNumber = new javax.swing.JLabel();
+        lblErrorMsgPlazaName = new javax.swing.JLabel();
+        lblErrorMsgPlazaLocation = new javax.swing.JLabel();
+        lblErrorMsgState = new javax.swing.JLabel();
+        lblErrorMsgAddress = new javax.swing.JLabel();
+        txtFldVehicleCategory = new javax.swing.JTextField();
+        lblErrorMsgVehicleCategory = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtFldSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        btnSortByCitizenshipNumber = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
-        pnlLoadingPage = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        lblBackgroundImage = new javax.swing.JLabel();
-        lblTitle = new javax.swing.JLabel();
-        lblLoadingBar = new javax.swing.JLabel();
         pnlLoginPage = new javax.swing.JPanel();
         pnlLoginDetails = new javax.swing.JPanel();
-        tfUserName = new javax.swing.JTextField();
-        pfPassword = new javax.swing.JPasswordField();
-        spUser = new javax.swing.JSeparator();
-        spPassword = new javax.swing.JSeparator();
+        txtFldUserName = new javax.swing.JTextField();
+        pwdFldPassword = new javax.swing.JPasswordField();
         lblLogin = new javax.swing.JLabel();
         btnSignIn = new javax.swing.JButton();
         lblForgetPassword = new javax.swing.JLabel();
         lblPasswordImage = new javax.swing.JLabel();
         lblUserImage = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblMessage = new javax.swing.JLabel();
         pnlImage = new javax.swing.JPanel();
-        lblImage = new javax.swing.JLabel();
+        lblLoginImage = new javax.swing.JLabel();
+        pnlLoadingPage = new javax.swing.JPanel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        lblBackgroundImage = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
+        lblLoadingBar = new javax.swing.JLabel();
 
-        pnlPages.setMaximumSize(new java.awt.Dimension(900, 500));
+        pnlPages.setMaximumSize(new java.awt.Dimension(1150, 620));
         pnlPages.setPreferredSize(new java.awt.Dimension(1150, 620));
+        pnlPages.setSize(new java.awt.Dimension(1150, 620));
 
-        pnlTitle.setBackground(new java.awt.Color(204, 204, 204));
+        pnlTitle.setBackground(new java.awt.Color(54, 69, 79));
 
         btnLogOut.setBackground(new java.awt.Color(54, 69, 79));
         btnLogOut.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
@@ -144,23 +131,24 @@ public class TollManagementSystem extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("                                            Toll Tax Management System");
+        lblTitlePages.setBackground(new java.awt.Color(255, 255, 255));
+        lblTitlePages.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        lblTitlePages.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitlePages.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTitlePages.setText("                                            Toll Tax Management System");
 
         javax.swing.GroupLayout pnlTitleLayout = new javax.swing.GroupLayout(pnlTitle);
         pnlTitle.setLayout(pnlTitleLayout);
         pnlTitleLayout.setHorizontalGroup(
             pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTitleLayout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitlePages, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(btnLogOut))
         );
         pnlTitleLayout.setVerticalGroup(
             pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblTitlePages, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnLogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -264,116 +252,116 @@ public class TollManagementSystem extends javax.swing.JFrame {
         jtInformation.setBackground(new java.awt.Color(54, 69, 79));
         jtInformation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "D.L.No.", "First Name", "last Name", "Citizenship No.", "Vechicle Number", "Vechicle Category", "Address", "State", "Toll Plaza name", "Toll Plaza Location"
+                "License Number", "Citizen Name", "Citizenship No.", "Vechicle Number", "Toll Plaza Location", "State", "Toll Plaza Name", "Vehicle Category", "Address"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -396,72 +384,63 @@ public class TollManagementSystem extends javax.swing.JFrame {
             jtInformation.getColumnModel().getColumn(6).setResizable(false);
             jtInformation.getColumnModel().getColumn(7).setResizable(false);
             jtInformation.getColumnModel().getColumn(8).setResizable(false);
-            jtInformation.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        pnlTextFields.setBackground(new java.awt.Color(153, 102, 0));
+        pnlTextFields.setBackground(new java.awt.Color(54, 69, 79));
 
-        tfLicenseNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "D.L.No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfLicenseNumber.addActionListener(new java.awt.event.ActionListener() {
+        txtFldLicenseNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "License Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldLicenseNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfLicenseNumberActionPerformed(evt);
+                txtFldLicenseNumberActionPerformed(evt);
             }
         });
 
-        tfCitizenName.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Citizen Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfCitizenName.addActionListener(new java.awt.event.ActionListener() {
+        txtFldCitizenName.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Citizen Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldCitizenName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCitizenNameActionPerformed(evt);
+                txtFldCitizenNameActionPerformed(evt);
             }
         });
 
-        tfCitizenshipNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Citizenship Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfCitizenshipNumber.addActionListener(new java.awt.event.ActionListener() {
+        txtFldCitizenshipNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Citizenship Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldCitizenshipNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCitizenshipNumberActionPerformed(evt);
+                txtFldCitizenshipNumberActionPerformed(evt);
             }
         });
 
-        tfVehicleNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vehicle Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfVehicleNumber.addActionListener(new java.awt.event.ActionListener() {
+        txtFldVehicleNumber.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vehicle Number", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldVehicleNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfVehicleNumberActionPerformed(evt);
+                txtFldVehicleNumberActionPerformed(evt);
             }
         });
 
-        tfAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfAddress.addActionListener(new java.awt.event.ActionListener() {
+        txtFldAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfAddressActionPerformed(evt);
+                txtFldAddressActionPerformed(evt);
             }
         });
 
-        cbVehicleCategeory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A - Motorcycle,Scooter", "B - Car,Jeep", "C - Tempo", "C1 - E-Rickshaw", "D - Power Tiller", "E - Tractor", "F - Minibus,MiniTruck", "G - Truck,Bus,Lorry", "H - Road Roller,Dozer", "H1 - Dozer", "H2 - Road Roller", "I - Crane,Fire Brigade,Loader", "I1 - Crane", "I2 - Fire Brigade", "I3 - Loader", "J1 - Excavator", "J2 - Backhoe Loader", "J3 - Grader", "J4 - Forklift", "J5 - Other", "K - Scooter,Moped" }));
-        cbVehicleCategeory.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vehicle Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        cbVehicleCategeory.addActionListener(new java.awt.event.ActionListener() {
+        txtFldState.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "State", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbVehicleCategeoryActionPerformed(evt);
+                txtFldStateActionPerformed(evt);
             }
         });
 
-        tfState.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "State", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfState.addActionListener(new java.awt.event.ActionListener() {
+        txtFldPlazaName.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Toll Plaza Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldPlazaName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfStateActionPerformed(evt);
+                txtFldPlazaNameActionPerformed(evt);
             }
         });
 
-        tfPlazaName.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Toll Plaza Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfPlazaName.addActionListener(new java.awt.event.ActionListener() {
+        txtFldPlazaLocation.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Toll Plaza Location", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldPlazaLocation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfPlazaNameActionPerformed(evt);
-            }
-        });
-
-        tfPlazaLocation.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Toll Plaza Location", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
-        tfPlazaLocation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfPlazaLocationActionPerformed(evt);
+                txtFldPlazaLocationActionPerformed(evt);
             }
         });
 
@@ -498,83 +477,191 @@ public class TollManagementSystem extends javax.swing.JFrame {
             }
         });
 
+        lblErrorMsgLicenseNumber.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgCitizenName.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgCitizenshipNumber.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgVehicleNumber.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgPlazaName.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgPlazaLocation.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgState.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblErrorMsgAddress.setForeground(new java.awt.Color(255, 255, 255));
+
+        txtFldVehicleCategory.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vehicle Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13))); // NOI18N
+        txtFldVehicleCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldVehicleCategoryActionPerformed(evt);
+            }
+        });
+
+        lblErrorMsgVehicleCategory.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout pnlTextFieldsLayout = new javax.swing.GroupLayout(pnlTextFields);
         pnlTextFields.setLayout(pnlTextFieldsLayout);
         pnlTextFieldsLayout.setHorizontalGroup(
             pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTextFieldsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfPlazaName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlTextFieldsLayout.createSequentialGroup()
-                        .addComponent(tfLicenseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addContainerGap()
+                        .addComponent(lblErrorMsgLicenseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTextFieldsLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(pnlTextFieldsLayout.createSequentialGroup()
-                                .addComponent(tfCitizenName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfCitizenshipNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlTextFieldsLayout.createSequentialGroup()
-                                .addComponent(tfPlazaLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tfAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfState, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(cbVehicleCategeory, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(28, 28, 28)
+                            .addComponent(txtFldLicenseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFldState, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrorMsgState, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
                 .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                    .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFldCitizenName, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgCitizenName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                                .addComponent(txtFldCitizenshipNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtFldVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                                .addComponent(lblErrorMsgCitizenshipNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblErrorMsgVehicleNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                                .addComponent(lblErrorMsgVehicleCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(187, 187, 187))))
+                    .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                        .addComponent(txtFldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFldVehicleCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                            .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblErrorMsgPlazaName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFldPlazaName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFldPlazaLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgPlazaLocation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlTextFieldsLayout.setVerticalGroup(
             pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTextFieldsLayout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCitizenName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfLicenseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCitizenshipNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFldCitizenName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldLicenseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldCitizenshipNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldPlazaName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldPlazaLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTextFieldsLayout.createSequentialGroup()
-                        .addGap(53, 53, 53)
+                        .addGap(47, 47, 47)
                         .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlTextFieldsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblErrorMsgLicenseNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgCitizenName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgCitizenshipNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgVehicleNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorMsgPlazaLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblErrorMsgPlazaName, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfState, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfPlazaName, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfPlazaLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(cbVehicleCategeory, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18))
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFldVehicleCategory, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtFldState, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtFldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlTextFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblErrorMsgState, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblErrorMsgAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblErrorMsgVehicleCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(13, 13, 13))
         );
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel1.setText(" Vehicle Information");
+        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 69, 79), 2, true));
+
+        txtFldSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        btnSearch.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        btnSortByCitizenshipNumber.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnSortByCitizenshipNumber.setText("Sort by Citizenship Number");
+        btnSortByCitizenshipNumber.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        btnSortByCitizenshipNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortByCitizenshipNumberActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpDashboardLayout = new javax.swing.GroupLayout(jpDashboard);
         jpDashboard.setLayout(jpDashboardLayout);
         jpDashboardLayout.setHorizontalGroup(
             jpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jspTableContents)
             .addComponent(pnlTextFields, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jpDashboardLayout.createSequentialGroup()
+                .addComponent(jspTableContents, javax.swing.GroupLayout.PREFERRED_SIZE, 1164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jpDashboardLayout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtFldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addComponent(btnSortByCitizenshipNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpDashboardLayout.setVerticalGroup(
             jpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpDashboardLayout.createSequentialGroup()
-                .addComponent(jspTableContents, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(pnlTextFields, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtFldSearch, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(btnSortByCitizenshipNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jspTableContents, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlTextFields, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jtpPages.addTab("Dashboard", jpDashboard);
@@ -601,88 +688,34 @@ public class TollManagementSystem extends javax.swing.JFrame {
                 .addComponent(jtpPages))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(900, 500));
-        setPreferredSize(new java.awt.Dimension(1150, 620));
-        setSize(new java.awt.Dimension(900, 500));
-
-        pnlLoadingPage.setBackground(new java.awt.Color(153, 153, 153));
-        pnlLoadingPage.setMaximumSize(new java.awt.Dimension(900, 500));
-        pnlLoadingPage.setMinimumSize(new java.awt.Dimension(900, 500));
-        pnlLoadingPage.setPreferredSize(new java.awt.Dimension(1150, 620));
-        pnlLoadingPage.setSize(new java.awt.Dimension(900, 500));
-
-        lblBackgroundImage.setBackground(new java.awt.Color(255, 255, 255));
-        lblBackgroundImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tollmanagementsystem/resources/toll.png"))); // NOI18N
-        lblBackgroundImage.setMaximumSize(new java.awt.Dimension(450, 250));
-        lblBackgroundImage.setMinimumSize(new java.awt.Dimension(450, 250));
-        lblBackgroundImage.setPreferredSize(new java.awt.Dimension(450, 250));
-        lblBackgroundImage.setSize(new java.awt.Dimension(450, 250));
-
-        lblTitle.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitle.setText("Your journey, streamlined-tolls made easy and fast");
-
-        lblLoadingBar.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        lblLoadingBar.setForeground(new java.awt.Color(255, 255, 255));
-        lblLoadingBar.setText("Loading ....");
-
-        javax.swing.GroupLayout pnlLoadingPageLayout = new javax.swing.GroupLayout(pnlLoadingPage);
-        pnlLoadingPage.setLayout(pnlLoadingPageLayout);
-        pnlLoadingPageLayout.setHorizontalGroup(
-            pnlLoadingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pnlLoadingPageLayout.createSequentialGroup()
-                .addGroup(pnlLoadingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlLoadingPageLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblLoadingBar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlLoadingPageLayout.createSequentialGroup()
-                        .addGap(287, 287, 287)
-                        .addComponent(lblBackgroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(249, Short.MAX_VALUE))
-        );
-        pnlLoadingPageLayout.setVerticalGroup(
-            pnlLoadingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoadingPageLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(lblBackgroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(lblTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
-                .addComponent(lblLoadingBar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
+        pnlLoginPage.setMaximumSize(new java.awt.Dimension(1150, 620));
         pnlLoginPage.setPreferredSize(new java.awt.Dimension(1150, 620));
+        pnlLoginPage.setSize(new java.awt.Dimension(1150, 620));
 
         pnlLoginDetails.setBackground(new java.awt.Color(54, 69, 79));
         pnlLoginDetails.setForeground(new java.awt.Color(255, 255, 255));
 
-        tfUserName.setBackground(new java.awt.Color(54, 69, 79));
-        tfUserName.setForeground(new java.awt.Color(255, 255, 255));
-        tfUserName.setBorder(null);
-        tfUserName.addActionListener(new java.awt.event.ActionListener() {
+        txtFldUserName.setBackground(new java.awt.Color(54, 69, 79));
+        txtFldUserName.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        txtFldUserName.setForeground(new java.awt.Color(255, 255, 255));
+        txtFldUserName.setText("admin");
+        txtFldUserName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13), new java.awt.Color(255, 255, 255))); // NOI18N
+        txtFldUserName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfUserNameActionPerformed(evt);
+                txtFldUserNameActionPerformed(evt);
             }
         });
 
-        pfPassword.setBackground(new java.awt.Color(54, 69, 79));
-        pfPassword.setForeground(new java.awt.Color(255, 255, 255));
-        pfPassword.setBorder(null);
-        pfPassword.addActionListener(new java.awt.event.ActionListener() {
+        pwdFldPassword.setBackground(new java.awt.Color(54, 69, 79));
+        pwdFldPassword.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        pwdFldPassword.setForeground(new java.awt.Color(255, 255, 255));
+        pwdFldPassword.setText("password");
+        pwdFldPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 1, 13), new java.awt.Color(255, 255, 255))); // NOI18N
+        pwdFldPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pfPasswordActionPerformed(evt);
+                pwdFldPasswordActionPerformed(evt);
             }
         });
-
-        spUser.setForeground(new java.awt.Color(255, 255, 255));
-
-        spPassword.setForeground(new java.awt.Color(255, 255, 255));
 
         lblLogin.setBackground(new java.awt.Color(0, 0, 0));
         lblLogin.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
@@ -693,6 +726,7 @@ public class TollManagementSystem extends javax.swing.JFrame {
         btnSignIn.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnSignIn.setForeground(new java.awt.Color(255, 255, 255));
         btnSignIn.setText("Sign In");
+        btnSignIn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         btnSignIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSignInActionPerformed(evt);
@@ -708,9 +742,9 @@ public class TollManagementSystem extends javax.swing.JFrame {
 
         lblUserImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tollmanagementsystem/resources/user.png"))); // NOI18N
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Enter your credentials to access account");
+        lblMessage.setBackground(new java.awt.Color(255, 255, 255));
+        lblMessage.setForeground(new java.awt.Color(255, 255, 255));
+        lblMessage.setText("Enter your credentials to access account");
 
         javax.swing.GroupLayout pnlLoginDetailsLayout = new javax.swing.GroupLayout(pnlLoginDetails);
         pnlLoginDetails.setLayout(pnlLoginDetailsLayout);
@@ -718,36 +752,29 @@ public class TollManagementSystem extends javax.swing.JFrame {
             pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
                 .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(lblForgetPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
+                            .addGap(117, 117, 117)
+                            .addComponent(lblMessage))
+                        .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
-                                    .addGap(117, 117, 117)
-                                    .addComponent(jLabel1))
-                                .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginDetailsLayout.createSequentialGroup()
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblUserImage, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
-                                        .addGap(87, 87, 87)
-                                        .addComponent(lblPasswordImage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(pfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginDetailsLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(spUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(spPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
-                                .addGap(187, 187, 187)
-                                .addComponent(lblLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(lblUserImage, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtFldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
+                                    .addComponent(lblPasswordImage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(pwdFldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblForgetPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
                         .addGap(186, 186, 186)
+                        .addComponent(lblLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
+                        .addGap(187, 187, 187)
                         .addComponent(btnSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         pnlLoginDetailsLayout.setVerticalGroup(
             pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -755,19 +782,18 @@ public class TollManagementSystem extends javax.swing.JFrame {
                 .addGap(100, 100, 100)
                 .addComponent(lblLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(lblMessage)
                 .addGap(18, 18, 18)
-                .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblUserImage, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(tfUserName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spUser, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblPasswordImage, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(pfPassword))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginDetailsLayout.createSequentialGroup()
+                        .addComponent(lblUserImage, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)))
+                .addGroup(pnlLoginDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pwdFldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlLoginDetailsLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(lblPasswordImage, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblForgetPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -777,7 +803,7 @@ public class TollManagementSystem extends javax.swing.JFrame {
 
         pnlImage.setBackground(new java.awt.Color(153, 153, 153));
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tollmanagementsystem/resources/login.png"))); // NOI18N
+        lblLoginImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tollmanagementsystem/resources/login.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlImageLayout = new javax.swing.GroupLayout(pnlImage);
         pnlImage.setLayout(pnlImageLayout);
@@ -785,12 +811,12 @@ public class TollManagementSystem extends javax.swing.JFrame {
             pnlImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlImageLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblLoginImage, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlImageLayout.setVerticalGroup(
             pnlImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlImageLayout.createSequentialGroup()
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblLoginImage, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -811,35 +837,75 @@ public class TollManagementSystem extends javax.swing.JFrame {
             .addComponent(pnlLoginDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1160, 620));
+        setMinimumSize(new java.awt.Dimension(1160, 620));
+        setSize(new java.awt.Dimension(1160, 620));
+
+        pnlLoadingPage.setBackground(new java.awt.Color(0, 0, 0));
+        pnlLoadingPage.setMaximumSize(new java.awt.Dimension(1150, 620));
+        pnlLoadingPage.setMinimumSize(new java.awt.Dimension(1150, 620));
+        pnlLoadingPage.setPreferredSize(new java.awt.Dimension(1150, 620));
+        pnlLoadingPage.setSize(new java.awt.Dimension(1150, 620));
+
+        jProgressBar1.setBackground(new java.awt.Color(0, 0, 0));
+        jProgressBar1.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblBackgroundImage.setBackground(new java.awt.Color(255, 255, 255));
+        lblBackgroundImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tollmanagementsystem/resources/toll2.png"))); // NOI18N
+        lblBackgroundImage.setMaximumSize(new java.awt.Dimension(450, 250));
+        lblBackgroundImage.setMinimumSize(new java.awt.Dimension(450, 250));
+        lblBackgroundImage.setPreferredSize(new java.awt.Dimension(450, 250));
+        lblBackgroundImage.setSize(new java.awt.Dimension(450, 250));
+
+        lblTitle.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText("Your journey, streamlined-tolls made easy and fast");
+
+        lblLoadingBar.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        lblLoadingBar.setForeground(new java.awt.Color(255, 255, 255));
+        lblLoadingBar.setText("Loading ....");
+
+        javax.swing.GroupLayout pnlLoadingPageLayout = new javax.swing.GroupLayout(pnlLoadingPage);
+        pnlLoadingPage.setLayout(pnlLoadingPageLayout);
+        pnlLoadingPageLayout.setHorizontalGroup(
+            pnlLoadingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlLoadingPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLoadingBar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblBackgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, 1160, Short.MAX_VALUE)
+        );
+        pnlLoadingPageLayout.setVerticalGroup(
+            pnlLoadingPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoadingPageLayout.createSequentialGroup()
+                .addComponent(lblBackgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblLoadingBar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1150, Short.MAX_VALUE)
+            .addGap(0, 1160, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(pnlLoadingPage, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(pnlLoginPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(pnlLoadingPage, javax.swing.GroupLayout.DEFAULT_SIZE, 1160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 632, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(pnlLoadingPage, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(pnlLoadingPage, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(pnlLoginPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -855,22 +921,15 @@ public class TollManagementSystem extends javax.swing.JFrame {
     private void initializeData() {
         tollList = new LinkedList<>();
 
-        // Registering sample Citizens
-        registerToll(new TollModel(123456789, "Sanjay Sharma", 987654321, 123456, 
-                            "Tribhuvan International Airport Toll Plaza", 
-                            "Kathmandu, Nepal", 
-                            "123 Thamel, Kathmandu, Nepal", 
-                            "Gandaki"));
-        registerToll(new TollModel(123456788, "Anita Gurung", 987654322, 654321, 
-                            "Madhyapur Thimi Toll Plaza", 
-                            "Bhaktapur, Nepal", 
-                            "456 Bhadgaon, Bhaktapur, Nepal", 
-                            "Bagmati"));
-        registerToll(new TollModel(123456787, "Rajesh Koirala", 987654323, 789012, 
-                            "Sundarijal Toll Plaza", 
-                            "Kathmandu, Nepal", 
-                            "789 Sundarijal, Kathmandu, Nepal", 
-                            "Bagmati"));
+        // Registering sample Citizens with 4-digit vehicle numbers
+        registerToll(new TollModel(123456789,"Sanjay Sharma",987654321,1234,"SUV","123 Thamel, Kathmandu, Nepal","Gandaki",
+                    "Tribhuvan International Airport Toll Plaza","Kathmandu, Nepal"));
+        
+        registerToll(new TollModel(123456788,"Anita Gurung",987654322,5678,"Car","456 Bhadgaon, Bhaktapur, Nepal","Bagmati",
+                    "Madhyapur Thimi Toll Plaza","Bhaktapur, Nepal"));
+        
+        registerToll(new TollModel(123456787,"Rajesh Koirala",987654323,9012,"Truck","789 Sundarijal, Kathmandu, Nepal","Bagmati",
+                    "Sundarijal Toll Plaza","Kathmandu, Nepal"));
     }
     
     /**
@@ -882,67 +941,68 @@ public class TollManagementSystem extends javax.swing.JFrame {
         tollList.add(toll);
         
         // Get the table model from the JTable
-        DefaultTableModel model = (DefaultTableModel) jtInformation.getModel(); // Assuming jtInformation is your JTable
+        DefaultTableModel model = (DefaultTableModel) jtInformation.getModel(); 
     
         // Add a new row to the table with the toll data
         model.addRow(new Object[]{
             toll.getLicenseNumber(), 
-            toll.getCustomerName(),   
+            toll.getCitizenName(),   
             toll.getCitizenshipNumber(), 
-            toll.getVehicleNumber(),   
-            toll.getTollPlazaName(),   
-            toll.getTollPlazaLocation(), 
+            toll.getVehicleNumber(),
+            toll.getVehicleCategory(), 
             toll.getAddress(),         
-            toll.getState()            
+            toll.getState(),
+            toll.getTollPlazaName(),
+            toll.getTollPlazaLocation()
         });
     }
     
-    private void tfUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUserNameActionPerformed
+    private void txtFldUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldUserNameActionPerformed
         // Retrieve the username from the text field
-        String username = tfUserName.getText().trim(); // Trim to remove leading/trailing spaces
+        String username = txtFldUserName.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the username
         if (username.isEmpty()) {
           // Show an error message if the username is empty
-            tfUserName.setText("Username cannot be empty.");
-            tfUserName.setForeground(Color.RED); // Set the error message color
-            tfUserName.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            txtFldUserName.setText("Username cannot be empty.");
+            txtFldUserName.setForeground(Color.RED); // Set the error message color
+            txtFldUserName.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (username.length() < 3 || username.length() > 15) {
             // Check for length constraints
-            tfUserName.setText("Username must be between 3 and 15 characters.");
-            tfUserName.setForeground(Color.RED);
-            tfUserName.setBorder(BorderFactory.createLineBorder(Color.RED));
+            txtFldUserName.setText("Username must be between 3 and 15 characters.");
+            txtFldUserName.setForeground(Color.RED);
+            txtFldUserName.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, clear the error message and reset the border
-            tfUserName.setText(""); // Clear the error message
-            tfUserName.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // highlight valid input
+            txtFldUserName.setText(""); // Clear the error message
+            txtFldUserName.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // highlight valid input
         }
-    }//GEN-LAST:event_tfUserNameActionPerformed
+    }//GEN-LAST:event_txtFldUserNameActionPerformed
 
-    private void pfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfPasswordActionPerformed
+    private void pwdFldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdFldPasswordActionPerformed
         // Retrieve the password from the password field
-    String password = new String(pfPassword.getPassword()).trim(); // Trim to remove leading/trailing spaces
+    String password = new String(pwdFldPassword.getPassword()).trim(); // Trim to remove leading/trailing spaces
 
     // Validate the password
     if (password.isEmpty()) {
-        pfPassword.setText("Password cannot be empty.");
-        pfPassword.setForeground(Color.RED); // Set the error message color
-        pfPassword.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the password field
+        pwdFldPassword.setText("Password cannot be empty.");
+        pwdFldPassword.setForeground(Color.RED); // Set the error message color
+        pwdFldPassword.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the password field
     } else if (password.length() < 8) {
         // Check for length constraints
-        pfPassword.setText("Password must be at least 8 characters.");
-        pfPassword.setForeground(Color.RED);
-        pfPassword.setBorder(BorderFactory.createLineBorder(Color.RED));
+        pwdFldPassword.setText("Password must be at least 8 characters.");
+        pwdFldPassword.setForeground(Color.RED);
+        pwdFldPassword.setBorder(BorderFactory.createLineBorder(Color.RED));
     } else {
         // If valid, clear the error message and reset the border
-        pfPassword.setText(""); // Clear the error message
-        pfPassword.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+        pwdFldPassword.setText(""); // Clear the error message
+        pwdFldPassword.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
     }
-    }//GEN-LAST:event_pfPasswordActionPerformed
+    }//GEN-LAST:event_pwdFldPasswordActionPerformed
 
     private void btnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignInActionPerformed
-        String username = tfUserName.getText().trim();
-        String password = new String(pfPassword.getPassword());
+        String username = txtFldUserName.getText().trim();
+        String password = new String(pwdFldPassword.getPassword());
         
         if(username.equals("admin") && password.equals("password")){
             //Hide the login page
@@ -972,186 +1032,170 @@ public class TollManagementSystem extends javax.swing.JFrame {
         pnlLoginPage.setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
-    private void tfAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAddressActionPerformed
+    private void txtFldAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldAddressActionPerformed
         // Retrieve the address from the text field
-        String address = tfAddress.getText().trim(); // Trim to remove leading/trailing spaces
+        String address = txtFldAddress.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the address
         if (address.isEmpty()) {
-            tfAddress.setText("Address cannot be empty.");
-            tfAddress.setForeground(Color.RED); // Set the error message color
-            tfAddress.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgAddress.setText("Address cannot be empty.");
+            lblErrorMsgAddress.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgAddress.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (address.length() < 5) {
             // Check for minimum length
-            tfAddress.setText("Address must be at least 5 characters long.");
-            tfAddress.setForeground(Color.RED);
-            tfAddress.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgAddress.setText("Address must be at least 5 characters long.");
+            lblErrorMsgAddress.setForeground(Color.RED);
+            lblErrorMsgAddress.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, clear the error message and reset the border
-            tfAddress.setText(""); // Clear the error message
-            tfAddress.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input    
+            lblErrorMsgAddress.setText(""); // Clear the error message
+            lblErrorMsgAddress.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input    
         }
-    }//GEN-LAST:event_tfAddressActionPerformed
+    }//GEN-LAST:event_txtFldAddressActionPerformed
 
-    private void tfPlazaLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPlazaLocationActionPerformed
+    private void txtFldPlazaLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldPlazaLocationActionPerformed
         // Retrieve the plaza location from the text field
-        String plazaLocation = tfPlazaLocation.getText().trim(); // Trim to remove leading/trailing spaces
+        String plazaLocation = txtFldPlazaLocation.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the plaza location
         if (plazaLocation.isEmpty()) {
-            tfPlazaLocation.setText("Plaza location cannot be empty.");
-            tfPlazaLocation.setForeground(Color.RED); // Set the error message color
-            tfPlazaLocation.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgPlazaLocation.setText("Plaza location cannot be empty.");
+            lblErrorMsgPlazaLocation.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgPlazaLocation.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (plazaLocation.length() < 5) {
             // Check for minimum length
-            tfPlazaLocation.setText("Plaza location must be at least 5 characters long.");
-            tfPlazaLocation.setForeground(Color.RED);
-            tfPlazaLocation.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgPlazaLocation.setText("Plaza location must be at least 5 characters long.");
+            lblErrorMsgPlazaLocation.setForeground(Color.RED);
+            lblErrorMsgPlazaLocation.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid
-            tfPlazaLocation.setText(""); // Clear the error message
-            tfPlazaLocation.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input   
+            lblErrorMsgPlazaLocation.setText(""); // Clear the error message
+            lblErrorMsgPlazaLocation.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input   
         }
-    }//GEN-LAST:event_tfPlazaLocationActionPerformed
+    }//GEN-LAST:event_txtFldPlazaLocationActionPerformed
 
-    private void tfLicenseNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfLicenseNumberActionPerformed
+    private void txtFldLicenseNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldLicenseNumberActionPerformed
         // Retrieve the license number from the text field
-        String licenseNumber = tfLicenseNumber.getText().trim(); // Trim to remove leading/trailing spaces
+        String licenseNumber = txtFldLicenseNumber.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the license number
         if (licenseNumber.isEmpty()) {
-            tfLicenseNumber.setText("License number cannot be empty.");
-            tfLicenseNumber.setForeground(Color.RED); // Set the error message color
-            tfLicenseNumber.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgLicenseNumber.setText("License number cannot be empty.");
+            lblErrorMsgLicenseNumber.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgLicenseNumber.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (!licenseNumber.matches("\\d{7}")) { // Example: Check if it is a 7-digit number
-            tfLicenseNumber.setText("License number must be a 7-digit number.");
-            tfLicenseNumber.setForeground(Color.RED);
-            tfLicenseNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgLicenseNumber.setText("License number must be a 7-digit number.");
+            lblErrorMsgLicenseNumber.setForeground(Color.RED);
+            lblErrorMsgLicenseNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid,
-            tfLicenseNumber.setText(""); // Clear the error message
-            tfLicenseNumber.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input  
+            lblErrorMsgLicenseNumber.setText(""); // Clear the error message
+            lblErrorMsgLicenseNumber.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input  
         }
-    }//GEN-LAST:event_tfLicenseNumberActionPerformed
+    }//GEN-LAST:event_txtFldLicenseNumberActionPerformed
 
-    private void tfCitizenNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCitizenNameActionPerformed
+    private void txtFldCitizenNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldCitizenNameActionPerformed
         // Retrieve the citizen name from the text field
-        String citizenName = tfCitizenName.getText().trim(); // Trim to remove leading/trailing spaces
+        String citizenName = txtFldCitizenName.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the citizen name
         if (citizenName.isEmpty()) {
-            tfCitizenName.setText("Citizen name cannot be empty.");
-            tfCitizenName.setForeground(Color.RED); // Set the error message color
-            tfCitizenName.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgCitizenName.setText("Citizen name cannot be empty.");
+            lblErrorMsgCitizenName.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgCitizenName.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (citizenName.length() < 3) {
             // Check for minimum length
-            tfCitizenName.setText("Citizen name must be at least 3 characters long.");
-            tfCitizenName.setForeground(Color.RED);
-            tfCitizenName.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgCitizenName.setText("Citizen name must be at least 3 characters long.");
+            lblErrorMsgCitizenName.setForeground(Color.RED);
+            lblErrorMsgCitizenName.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, 
-            tfCitizenName.setText(""); // Clear the error message
-            tfCitizenName.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+            lblErrorMsgCitizenName.setText(""); // Clear the error message
+            lblErrorMsgCitizenName.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
         }
-    }//GEN-LAST:event_tfCitizenNameActionPerformed
+    }//GEN-LAST:event_txtFldCitizenNameActionPerformed
 
-    private void tfCitizenshipNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCitizenshipNumberActionPerformed
+    private void txtFldCitizenshipNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldCitizenshipNumberActionPerformed
         // Retrieve the citizenship number from the text field
-        String citizenshipNumber = tfCitizenshipNumber.getText().trim(); // Trim to remove leading/trailing spaces
+        String citizenshipNumber = txtFldCitizenshipNumber.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the citizenship number
         if (citizenshipNumber.isEmpty()) {
-            tfCitizenshipNumber.setText("Citizenship number cannot be empty.");
-            tfCitizenshipNumber.setForeground(Color.RED); // Set the error message color
-            tfCitizenshipNumber.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgCitizenshipNumber.setText("Citizenship number cannot be empty.");
+            lblErrorMsgCitizenshipNumber.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgCitizenshipNumber.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (!citizenshipNumber.matches("\\d{10}")) { // Example: Check if it is a 10-digit number
-            tfCitizenshipNumber.setText("Citizenship number must be a 10-digit number.");
-            tfCitizenshipNumber.setForeground(Color.RED);
-            tfCitizenshipNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgCitizenshipNumber.setText("Citizenship number must be a 10-digit number.");
+            lblErrorMsgCitizenshipNumber.setForeground(Color.RED);
+            lblErrorMsgCitizenshipNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, clear the error message and reset the border
-            tfCitizenshipNumber.setText(""); // Clear the error message
-            tfCitizenshipNumber.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+            lblErrorMsgCitizenshipNumber.setText(""); // Clear the error message
+            lblErrorMsgCitizenshipNumber.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
         }
-    }//GEN-LAST:event_tfCitizenshipNumberActionPerformed
+    }//GEN-LAST:event_txtFldCitizenshipNumberActionPerformed
 
-    private void tfVehicleNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfVehicleNumberActionPerformed
+    private void txtFldVehicleNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldVehicleNumberActionPerformed
         // Retrieve the vehicle number from the text field
-        String vehicleNumber = tfVehicleNumber.getText().trim(); // Trim to remove leading/trailing spaces
+        String vehicleNumber = txtFldVehicleNumber.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the vehicle number
         if (vehicleNumber.isEmpty()) {
-            tfVehicleNumber.setText("Vehicle number cannot be empty.");
-            tfVehicleNumber.setForeground(Color.RED); // Set the error message color
-            tfVehicleNumber.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgVehicleNumber.setText("Vehicle number cannot be empty.");
+            lblErrorMsgVehicleNumber.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgVehicleNumber.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (!vehicleNumber.matches("[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}")) { // Example: Validate format (e.g., AB12CD3456)
-            tfVehicleNumber.setText("Vehicle number must be in the format AB12CD3456.");
-            tfVehicleNumber.setForeground(Color.RED);
-            tfVehicleNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgVehicleNumber.setText("Vehicle number must be in the format AB12CD3456.");
+            lblErrorMsgVehicleNumber.setForeground(Color.RED);
+            lblErrorMsgVehicleNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, clear the error message and reset the border
-            tfVehicleNumber.setText(""); // Clear the error message
-            tfVehicleNumber.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+            lblErrorMsgVehicleNumber.setText(""); // Clear the error message
+            lblErrorMsgVehicleNumber.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
         }
-    }//GEN-LAST:event_tfVehicleNumberActionPerformed
+    }//GEN-LAST:event_txtFldVehicleNumberActionPerformed
     
-    private void cbVehicleCategeoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVehicleCategeoryActionPerformed
-        // Retrieve the selected vehicle category from the JComboBox
-        String selectedVehicleType = (String) cbVehicleCategeory.getSelectedItem();
-
-        // Check if a valid selection was made
-        if (selectedVehicleType != null) {
-            // update the JComboBox selection
-            System.out.println("Selected Vehicle Type: " + selectedVehicleType);
-            cbVehicleCategeory.setForeground(Color.BLACK); // Note: this only changes the combo box's foreground color
-        } else {
-            // Handle the case where no selection is made
-            System.out.println("No vehicle type selected.");
-            cbVehicleCategeory.setForeground(Color.RED); // Note: this only changes the combo box's foreground color
-    }
-    }//GEN-LAST:event_cbVehicleCategeoryActionPerformed
-
-    private void tfStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfStateActionPerformed
+    private void txtFldStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldStateActionPerformed
         // Retrieve the state from the text field
-        String state = tfState.getText().trim(); // Trim to remove leading/trailing spaces
+        String state = txtFldState.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the state input
         if (state.isEmpty()) {
-            tfState.setText("State cannot be empty.");
-            tfState.setForeground(Color.RED); // Set the error message color
-            tfState.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgState.setText("State cannot be empty.");
+            lblErrorMsgState.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgState.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (state.length() < 2) {
             // Check for minimum length
-            tfState.setText("State must be at least 2 characters long.");
-            tfState.setForeground(Color.RED);
-            tfState.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgState.setText("State must be at least 2 characters long.");
+            lblErrorMsgState.setForeground(Color.RED);
+            lblErrorMsgState.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, clear the error message and reset the border
-            tfState.setText(""); // Clear the error message
-            tfState.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+            lblErrorMsgState.setText(""); // Clear the error message
+            lblErrorMsgState.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
         }
-    }//GEN-LAST:event_tfStateActionPerformed
+    }//GEN-LAST:event_txtFldStateActionPerformed
 
-    private void tfPlazaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPlazaNameActionPerformed
+    private void txtFldPlazaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldPlazaNameActionPerformed
         // Retrieve the plaza name from the text field
-        String plazaName = tfPlazaName.getText().trim(); // Trim to remove leading/trailing spaces
+        String plazaName = txtFldPlazaName.getText().trim(); // Trim to remove leading/trailing spaces
 
         // Validate the plaza name
         if (plazaName.isEmpty()) {
-            tfPlazaName.setText("Plaza name cannot be empty.");
-            tfPlazaName.setForeground(Color.RED); // Set the error message color
-            tfPlazaName.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+            lblErrorMsgPlazaName.setText("Plaza name cannot be empty.");
+            lblErrorMsgPlazaName.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgPlazaName.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
         } else if (plazaName.length() < 3) {
             // Check for minimum length
-            tfPlazaName.setText("Plaza name must be at least 3 characters long.");
-            tfPlazaName.setForeground(Color.RED);
-            tfPlazaName.setBorder(BorderFactory.createLineBorder(Color.RED));
+            lblErrorMsgPlazaName.setText("Plaza name must be at least 3 characters long.");
+            lblErrorMsgPlazaName.setForeground(Color.RED);
+            lblErrorMsgPlazaName.setBorder(BorderFactory.createLineBorder(Color.RED));
         } else {
             // If valid, clear the error message and reset the border
-            tfPlazaName.setText(""); // Clear the error message
-            tfPlazaName.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+            lblErrorMsgPlazaName.setText(""); // Clear the error message
+            lblErrorMsgPlazaName.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
         }
-    }//GEN-LAST:event_tfPlazaNameActionPerformed
+    }//GEN-LAST:event_txtFldPlazaNameActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         
@@ -1159,76 +1203,84 @@ public class TollManagementSystem extends javax.swing.JFrame {
         
         // Validate License Number
         isValid &= validateField(
-                tfLicenseNumber, "License Number", tfLicenseNumber, "Must be a valid integer.",
-                errorColor, yellowColor, ValidationUtil.isValidLicenseNumber(tfLicenseNumber.getText())
+                txtFldLicenseNumber, "License Number", lblErrorMsgLicenseNumber, "Must be 9 digit integer.",
+                errorColor, greenColor, ValidationUtil.isValidLicenseNumber(txtFldLicenseNumber.getText())
         );
-    
+
         // Validate Citizen Name
         isValid &= validateField(
-                tfCitizenName, "Customer Name", tfCitizenName, "Must contain only alphabets.",
-                errorColor, yellowColor, ValidationUtil.isValidName(tfCitizenName.getText())
+                txtFldCitizenName, "Customer Name", lblErrorMsgCitizenName, "Must contain only alphabets.",
+                errorColor, greenColor, ValidationUtil.isValidName(txtFldCitizenName.getText())
         );
-    
+
         // Validate Citizenship Number
         isValid &= validateField(
-                tfCitizenshipNumber, "Citizenship Number", tfCitizenshipNumber, "Must be a valid integer.",
-                errorColor, yellowColor, ValidationUtil.isValidCitizenId(tfCitizenshipNumber.getText())
+                txtFldCitizenshipNumber, "Citizenship Number", lblErrorMsgCitizenshipNumber, "Must be 7 digit integer.",
+                errorColor, greenColor, ValidationUtil.isValidCitizenshipNumber(txtFldCitizenshipNumber.getText())
         );
-    
+
         // Validate Vehicle Number
         isValid &= validateField(
-                tfVehicleNumber, "Vehicle Number", tfVehicleNumber, "Must be a valid vehicle number.",
-                errorColor, yellowColor, ValidationUtil.isValidVehicleNumber(tfVehicleNumber.getText())
+                txtFldVehicleNumber, "Vehicle Number", lblErrorMsgVehicleNumber, "Must be a valid vehicle number.",
+                errorColor, greenColor, ValidationUtil.isValidVehicleNumber(txtFldVehicleNumber.getText())
         );
-    
+
+        // Validate Vehicle Category
+        isValid &= validateField(
+                txtFldVehicleCategory,"Vehicle Category", lblErrorMsgVehicleCategory, "Must not be empty.",
+                errorColor, greenColor, !txtFldVehicleCategory.getText().trim().isEmpty()
+        );
+
         // Validate Toll Plaza Name
         isValid &= validateField(
-                tfPlazaName, "Toll Plaza Name", tfPlazaName, "Must not be empty.",
-                errorColor, yellowColor, !tfPlazaName.getText().trim().isEmpty()
+                txtFldPlazaName, "Toll Plaza Name", lblErrorMsgPlazaName, "Must not be empty.",
+                errorColor, greenColor, !txtFldPlazaName.getText().trim().isEmpty()
         );
-    
+
         // Validate Toll Plaza Location
         isValid &= validateField(
-                tfPlazaLocation, "Toll Plaza Location", tfPlazaLocation, "Must not be empty.",
-                errorColor, yellowColor, !tfPlazaLocation.getText().trim().isEmpty()
+                txtFldPlazaLocation, "Toll Plaza Location", lblErrorMsgPlazaLocation, "Must not be empty.",
+                errorColor, greenColor, !txtFldPlazaLocation.getText().trim().isEmpty()
         );
-    
+
         // Validate Address
         isValid &= validateField(
-                tfAddress, "Address", tfAddress, "Must not be empty.",
-                errorColor, yellowColor, !tfAddress.getText().trim().isEmpty()
+                txtFldAddress, "Address", lblErrorMsgAddress, "Must not be empty.",
+                errorColor, greenColor, !txtFldAddress.getText().trim().isEmpty()
         );
 
         // Validate State
         isValid &= validateField(
-                tfState, "State", tfState, "Must not be empty.",
-                errorColor, yellowColor, !tfState.getText().trim().isEmpty()
+                txtFldState, "State", lblErrorMsgState, "Must not be empty.",
+                errorColor, greenColor, !txtFldState.getText().trim().isEmpty()
         );
-    
+
         if (isValid) {
             // Create a TollModel instance
             TollModel newToll = new TollModel(
-                    Integer.parseInt(tfLicenseNumber.getText().trim()),
-                    tfCitizenName.getText().trim(),
-                    Integer.parseInt(tfCitizenshipNumber.getText().trim()),
-                    Integer.parseInt(tfVehicleNumber.getText().trim()),
-                    tfPlazaName.getText().trim(),
-                    tfPlazaLocation.getText().trim(),
-                    tfAddress.getText().trim(),
-                    tfState.getText().trim()
-        );
+                    Integer.parseInt(txtFldLicenseNumber.getText().trim()),
+                    txtFldCitizenName.getText().trim(),
+                    Integer.parseInt(txtFldCitizenshipNumber.getText().trim()),
+                    Integer.parseInt(txtFldVehicleNumber.getText().trim()),
+                    txtFldVehicleCategory.getText().trim(),
+                    txtFldPlazaName.getText().trim(),
+                    txtFldPlazaLocation.getText().trim(),
+                    txtFldAddress.getText().trim(),
+                    txtFldState.getText().trim()
+            );
 
-        // Check for duplicate License Number
-        if (checkDuplicateToll(newToll)) {
-            tfLicenseNumber.setBorder(createTitledBorder(errorColor, "License Number"));
-            showDialogBox("License Number already exists.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
-        } else {
-            // Add the toll entry if no duplicate is found
-            tollList.add(newToll);
-            clearTollForm(); // Method to clear the input fields
-            tfLicenseNumber.setBorder(createTitledBorder(yellowColor, "License Number"));
-            showDialogBox("Toll entry added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-        }
+            // Check for duplicate License Number
+            if (checkDuplicateToll(newToll)) {
+                txtFldLicenseNumber.setBorder(createTitledBorder(errorColor, "License Number"));
+                showDialogBox("License Number already exists.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+            } else {
+                // Add the toll entry if no duplicate is found
+                tollList.add(newToll);
+                clearTollForm(); // Method to clear the input fields
+                loadListToTable(tollList);
+                txtFldLicenseNumber.setBorder(createTitledBorder(greenColor, "License Number"));
+                showDialogBox("Toll entry added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -1266,118 +1318,231 @@ public class TollManagementSystem extends javax.swing.JFrame {
     }
     
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // Retrieve data from input fields
-        String plazaName = tfPlazaName.getText().trim();
-        String state = tfState.getText().trim();
-        String vehicleNumber = tfVehicleNumber.getText().trim();
-        String address = tfAddress.getText().trim();
-        String citizenName = tfCitizenName.getText().trim();
-        String plazaLocation = tfPlazaLocation.getText().trim();
-        String userName = tfUserName.getText().trim(); // Corrected variable name
-    
-        // Retrieve and parse integer fields
-        String citizenshipNumberStr = tfCitizenshipNumber.getText().trim();
-        String licenseNumberStr = tfLicenseNumber.getText().trim();
-    
-        // Validate the input data
-        if (plazaName.isEmpty() || state.isEmpty() || vehicleNumber.isEmpty() || 
-            address.isEmpty() || citizenshipNumberStr.isEmpty() || citizenName.isEmpty() || 
-            licenseNumberStr.isEmpty() || plazaLocation.isEmpty() || userName.isEmpty()) {
-        
-            System.out.println("All fields must be filled out.");
-            return; // Exit the method if validation fails
-        }
+        boolean isValid = true;
 
-        // Parse integer fields
-        int citizenshipNumber;
-        int licenseNumber;
-        try {
-            citizenshipNumber = Integer.parseInt(citizenshipNumberStr);
-            licenseNumber = Integer.parseInt(licenseNumberStr);
-        } catch (NumberFormatException e) {
-            System.out.println("Citizenship number and License number must be valid integers.");
-            return; // Exit if parsing fails
-        }
+        // Validate fields (same as the Add button)
+        isValid &= validateField(
+                txtFldLicenseNumber, "License Number", lblErrorMsgLicenseNumber, "Must be a valid license number.",
+                errorColor, greenColor, ValidationUtil.isValidLicenseNumber(txtFldLicenseNumber.getText())
+        );
+        isValid &= validateField(
+                txtFldCitizenName, "Citizen Name", lblErrorMsgCitizenName, "Must contain only alphabets.",
+                errorColor, greenColor, ValidationUtil.isValidName(txtFldCitizenName.getText())
+        );
+        isValid &= validateField(
+                txtFldCitizenshipNumber, "Citizenship Number", lblErrorMsgCitizenshipNumber, "Must be a valid number.",
+                errorColor, greenColor, ValidationUtil.isValidCitizenshipNumber(txtFldCitizenshipNumber.getText())
+        );
+        isValid &= validateField(
+                txtFldVehicleNumber, "Vehicle Number", lblErrorMsgVehicleNumber, "Must be a valid vehicle number.",
+                errorColor, greenColor, ValidationUtil.isValidVehicleNumber(txtFldVehicleNumber.getText())
+        );
+        isValid &= validateField(
+                txtFldPlazaLocation, "Plaza Location", lblErrorMsgPlazaLocation, "Must contain valid characters.",
+                errorColor, greenColor, ValidationUtil.isValidTollPlazaLocation(txtFldPlazaLocation.getText())
+        );
+        isValid &= validateField(
+                txtFldState, "State", lblErrorMsgState, "Must contain valid characters.",
+                errorColor, greenColor, ValidationUtil.isValidState(txtFldState.getText())
+        );
+        isValid &= validateField(
+                txtFldPlazaName, "Plaza Name", lblErrorMsgPlazaName, "Must contain valid characters.",
+                errorColor, greenColor, ValidationUtil.isValidTollPlazaName(txtFldPlazaName.getText())
+        );
+        isValid &= validateField(
+                txtFldVehicleCategory, "Vehicle Category", lblErrorMsgVehicleCategory, "Must be a valid category.",
+                errorColor, greenColor, ValidationUtil.isValidVehicleCategory(txtFldVehicleCategory.getText())
+        );
+        isValid &= validateField(
+                txtFldAddress, "Address", lblErrorMsgAddress, "Must contain valid characters.",
+                errorColor, greenColor, ValidationUtil.isValidAddress(txtFldAddress.getText())
+        );
 
-        // Update the data 
-        boolean updateSuccessful = updateData(plazaName, state, vehicleNumber, address, citizenshipNumber, citizenName, licenseNumber, plazaLocation, userName);
+        //Get table model
+        DefaultTableModel tableModel = (DefaultTableModel) jtInformation.getModel();
+        if (jtInformation.getSelectedRowCount() == 1) {
 
-        // Provide feedback to the user
-        if (updateSuccessful) {
-            JOptionPane.showMessageDialog(this, "Data updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        
-            // Clear all input fields after successful update
-            tfAddress.setText("");
-            tfCitizenshipNumber.setText("");
-            tfCitizenName.setText("");
-            tfLicenseNumber.setText("");
-            tfPlazaLocation.setText("");
-            tfPlazaName.setText("");
-            tfState.setText("");
-            tfUserName.setText(""); 
-            tfVehicleNumber.setText("");
+            try {
+                int selectedRow = jtInformation.getSelectedRow();
+
+                // Retrieve existing values for fields that are not being updated
+                Object licenseNumber = tableModel.getValueAt(selectedRow, 0);
+                Object citizenName = tableModel.getValueAt(selectedRow, 1);
+                Object citizenshipNumber = tableModel.getValueAt(selectedRow, 2);
+                Object vehicleNumber = tableModel.getValueAt(selectedRow, 3);
+                Object plazaLocation = tableModel.getValueAt(selectedRow, 4);
+                Object state = tableModel.getValueAt(selectedRow, 5);
+                Object plazaName = tableModel.getValueAt(selectedRow, 6);
+                Object vehicleCategory = tableModel.getValueAt(selectedRow, 7);
+                Object address = tableModel.getValueAt(selectedRow, 8);
+
+                // Update only if the corresponding input field is not empty
+                if (!txtFldLicenseNumber.getText().trim().isEmpty()) {
+                    licenseNumber = txtFldLicenseNumber.getText().trim();
+                }
+                if (!txtFldCitizenName.getText().trim().isEmpty()) {
+                    citizenName = txtFldCitizenName.getText().trim();
+                }
+                if (!txtFldCitizenshipNumber.getText().trim().isEmpty()) {
+                    citizenshipNumber = txtFldCitizenshipNumber.getText().trim();
+                }
+                if (!txtFldVehicleNumber.getText().trim().isEmpty()) {
+                    vehicleNumber = txtFldVehicleNumber.getText().trim();
+                }
+                if (!txtFldPlazaLocation.getText().trim().isEmpty()) {
+                    plazaLocation = txtFldPlazaLocation.getText().trim();
+                }
+                if (!txtFldState.getText().trim().isEmpty()) {
+                    state = txtFldState.getText().trim();
+                }
+                if (!txtFldPlazaName.getText().trim().isEmpty()) {
+                    plazaName = txtFldPlazaName.getText().trim();
+                }
+                if (!txtFldVehicleCategory.getText().trim().isEmpty()) {
+                    vehicleCategory = txtFldVehicleCategory.getText().trim();
+                }
+                if (!txtFldAddress.getText().trim().isEmpty()) {
+                    address = txtFldAddress.getText().trim();
+                }
+
+                // Update the table with the new values
+                tableModel.setValueAt(licenseNumber, selectedRow, 0);
+                tableModel.setValueAt(citizenName, selectedRow, 1);
+                tableModel.setValueAt(citizenshipNumber, selectedRow, 2);
+                tableModel.setValueAt(vehicleNumber, selectedRow, 3);
+                tableModel.setValueAt(plazaLocation, selectedRow, 4);
+                tableModel.setValueAt(state, selectedRow, 5);
+                tableModel.setValueAt(plazaName, selectedRow, 6);
+                tableModel.setValueAt(vehicleCategory, selectedRow, 7);
+                tableModel.setValueAt(address, selectedRow, 8);
+
+                JOptionPane.showMessageDialog(this, "Updated Successfully");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid input! Please enter valid numbers for Citizenship Number.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to update data.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (jtInformation.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Table is empty");
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a single row to update data.");
+            }
         }
     }
 
+    
+    
     // Example method to simulate data update
-    private boolean updateData(String plazaName, String state, String vehicleNumber, String address, int citizenshipNumber, String citizenName, int licenseNumber, String plazaLocation, String userName) {
+    private boolean updateData(String plazaName, String state, String vehicleNumber, String vehicleCategory, String address, int citizenshipNumber, String citizenName, int licenseNumber, String plazaLocation) {
         // Return true if successful, false otherwise
         return true; // Placeholder
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // Set the text of each text field to an empty string
-        tfAddress.setText("");
-        tfCitizenshipNumber.setText("");
-        tfCitizenName.setText("");
-        tfLicenseNumber.setText("");
-        tfPlazaLocation.setText("");
-        tfPlazaName.setText("");
-        tfState.setText("");
-        tfVehicleNumber.setText("");
+        txtFldAddress.setText("");
+        txtFldCitizenshipNumber.setText("");
+        txtFldCitizenName.setText("");
+        txtFldLicenseNumber.setText("");
+        txtFldPlazaLocation.setText("");
+        txtFldPlazaName.setText("");
+        txtFldState.setText("");
+        txtFldVehicleNumber.setText("");
+        txtFldVehicleCategory.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-       /*
-        // Get the selected toll entry or record to delete
-    int selectedIndex = tollList.getSelectedIndex(); // Assuming tollList is a JList or similar component
+        // Delete Button Functionality
+        DefaultTableModel tableModel = (DefaultTableModel) jtInformation.getModel();
 
-    // Check if an entry is selected
-    if (selectedIndex != -1) {
-        // Confirm deletion with the user
-        int confirmation = javax.swing.JOptionPane.showConfirmDialog(this, 
-            "Are you sure you want to delete this entry?", 
-            "Confirm Deletion", 
-            javax.swing.JOptionPane.YES_NO_OPTION);
+        // Check if a single row is selected for deletion
+        if (jtInformation.getSelectedRowCount() == 1) {
+            // Get selected row index
+            int selectedRow = jtInformation.getSelectedRow();
 
-        // If the user confirms the deletion
-        if (confirmation == javax.swing.JOptionPane.YES_OPTION) {
-            // Remove the selected toll entry from the list
-            tollListModel.remove(selectedIndex); // Assuming tollListModel is the model for the JList
+            // Remove the selected row from the table
+            tableModel.removeRow(selectedRow);
 
-            // Optionally, update any other components or data structures
-            // For example, you might want to refresh a display or update a database
-
-            // Show a success message to the user
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "Entry deleted successfully.", 
-                "Deletion Successful", 
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            // Show success message
+            JOptionPane.showMessageDialog(this, "Data deleted successfully.");
+        } else {
+            // If no rows are selected or multiple rows are selected
+            if (jtInformation.getRowCount() == 0) {
+                // If the table is empty
+                JOptionPane.showMessageDialog(this, "Table is empty.");
+            } else {
+                // If no row or multiple rows are selected
+                JOptionPane.showMessageDialog(this, "Please select a single row to delete.");
+            }
         }
-    } else {
-        // If no entry is selected, show an error message
-        javax.swing.JOptionPane.showMessageDialog(this, 
-            "Please select an entry to delete.", 
-            "Deletion Error", 
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-    }*/
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void txtFldVehicleCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldVehicleCategoryActionPerformed
+        // Retrieve the vehicle category from the text field
+        String vehicleCategory = txtFldVehicleCategory.getText().trim(); // Trim to remove leading/trailing spaces
+
+        // Validate the vehicle category input
+        if (vehicleCategory.isEmpty()) {
+            lblErrorMsgVehicleCategory.setText("Vehicle category cannot be empty.");
+            lblErrorMsgVehicleCategory.setForeground(Color.RED); // Set the error message color
+            lblErrorMsgVehicleCategory.setBorder(BorderFactory.createLineBorder(Color.RED)); // Highlight the text field
+        } else if (vehicleCategory.length() < 3) {
+            // Check for minimum length
+            lblErrorMsgVehicleCategory.setText("Vehicle category must be at least 3 characters long.");
+            lblErrorMsgVehicleCategory.setForeground(Color.RED);
+            lblErrorMsgVehicleCategory.setBorder(BorderFactory.createLineBorder(Color.RED));
+        } else {
+            // If valid, clear the error message and reset the border
+            lblErrorMsgVehicleCategory.setText(""); // Clear the error message
+            lblErrorMsgVehicleCategory.setBorder(BorderFactory.createLineBorder(Color.GREEN)); // Optional: highlight valid input
+        }
+
+    }//GEN-LAST:event_txtFldVehicleCategoryActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        SelectionSort selectionSort = new SelectionSort();
+        List<TollModel> sortedList = selectionSort.sortByCitizenName(tollList, true);
+        BinarySearch search = new BinarySearch();
+        TollModel searchedData = search.searchByName(txtFldSearch.getText().trim(), sortedList, 0, sortedList.size()-1);
+        if(searchedData!=null){
+            System.out.println(searchedData.getCitizenName());
+        }else{
+            System.out.println("Sorry");
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnSortByCitizenshipNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortByCitizenshipNumberActionPerformed
+        SelectionSort selectionSort = new SelectionSort();
+        loadListToTable(selectionSort.sortByCitizenshipNumber(tollList, false));
+    }//GEN-LAST:event_btnSortByCitizenshipNumberActionPerformed
+
     /**
-    * Validates a single input field in the toll management system based on specific
-    * criteria and updates its visual state.
+    * Populates the JTable with the current list of toll records. Clears
+    * existing rows in the table model before adding new data.
+    */
+    private void loadListToTable(List<TollModel> tollList) {
+        DefaultTableModel model = (DefaultTableModel) jtInformation.getModel(); 
+
+        // Clear existing rows if needed
+        model.setRowCount(0);
+
+        // Populate the table with toll data
+        tollList.forEach(toll -> model.addRow(new Object[]{
+            toll.getLicenseNumber(),
+            toll.getCitizenName(),
+            toll.getCitizenshipNumber(),
+            toll.getVehicleNumber(),
+            toll.getVehicleCategory(),
+            toll.getAddress(),
+            toll.getState(),
+            toll.getTollPlazaName(),
+            toll.getTollPlazaLocation()
+        }));
+    }
+
+    
+    /**
+    * Validates a single input field based on specific criteria and updates its
+    * visual state.
     *
     * @param textField the JTextField to validate
     * @param fieldName the name of the field for error display
@@ -1386,10 +1551,10 @@ public class TollManagementSystem extends javax.swing.JFrame {
     * @param errorColor the colour for error borders and text
     * @param successColor the colour for successful validation borders
     * @param isValidFormat whether the input satisfies the field-specific
-    *                      validation criteria
+    * validation criteria
     * @return true if the field passes validation, false otherwise
     */
-    private boolean validateField(JTextField textField, String fieldName, JTextField errorLbl, String errorMsg, Color errorColor, Color successColor, boolean isValidFormat) {
+    private boolean validateField(JTextField textField, String fieldName, JLabel errorLbl, String errorMsg, Color errorColor, Color successColor, boolean isValidFormat) {
         if (ValidationUtil.isNullOrEmpty(textField.getText())) {
             // Highlight the field and show an error message for empty input
             textField.setBorder(createTitledBorder(errorColor, fieldName));
@@ -1410,6 +1575,7 @@ public class TollManagementSystem extends javax.swing.JFrame {
         }
     }
 
+
     /**
          * Displays a message dialog box with the given message, title, and type.
         *
@@ -1427,14 +1593,14 @@ public class TollManagementSystem extends javax.swing.JFrame {
         * an empty string.
         */
         private void clearTollForm() {
-            tfAddress.setText("");
-            tfCitizenshipNumber.setText("");
-            tfCitizenName.setText("");
-            tfLicenseNumber.setText("");
-            tfPlazaLocation.setText("");
-            tfPlazaName.setText("");
-            tfState.setText("");
-            tfVehicleNumber.setText("");
+            txtFldAddress.setText("");
+            txtFldCitizenshipNumber.setText("");
+            txtFldCitizenName.setText("");
+            txtFldLicenseNumber.setText("");
+            txtFldPlazaLocation.setText("");
+            txtFldPlazaName.setText("");
+            txtFldState.setText("");
+            txtFldVehicleNumber.setText("");
         }
 
     public static void main(String args[]) {
@@ -1501,11 +1667,11 @@ public class TollManagementSystem extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSignIn;
+    private javax.swing.JButton btnSortByCitizenshipNumber;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbVehicleCategeory;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jpDashboard;
@@ -1514,19 +1680,29 @@ public class TollManagementSystem extends javax.swing.JFrame {
     private javax.swing.JTable jtInformation;
     private javax.swing.JTabbedPane jtpPages;
     private javax.swing.JLabel lblBackgroundImage;
+    private javax.swing.JLabel lblErrorMsgAddress;
+    private javax.swing.JLabel lblErrorMsgCitizenName;
+    private javax.swing.JLabel lblErrorMsgCitizenshipNumber;
+    private javax.swing.JLabel lblErrorMsgLicenseNumber;
+    private javax.swing.JLabel lblErrorMsgPlazaLocation;
+    private javax.swing.JLabel lblErrorMsgPlazaName;
+    private javax.swing.JLabel lblErrorMsgState;
+    private javax.swing.JLabel lblErrorMsgVehicleCategory;
+    private javax.swing.JLabel lblErrorMsgVehicleNumber;
     private javax.swing.JLabel lblForgetPassword;
     private javax.swing.JLabel lblHomeImage;
-    private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblLoadingBar;
     private javax.swing.JLabel lblLogin;
+    private javax.swing.JLabel lblLoginImage;
     private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblMessage;
     private javax.swing.JLabel lblPasswordImage;
     private javax.swing.JLabel lblPhrase;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblTitle3;
+    private javax.swing.JLabel lblTitlePages;
     private javax.swing.JLabel lblUserImage;
-    private javax.swing.JPasswordField pfPassword;
     private javax.swing.JPanel pnlContext;
     private javax.swing.JPanel pnlFooter;
     private javax.swing.JPanel pnlImage;
@@ -1536,18 +1712,19 @@ public class TollManagementSystem extends javax.swing.JFrame {
     private javax.swing.JPanel pnlPages;
     private javax.swing.JPanel pnlTextFields;
     private javax.swing.JPanel pnlTitle;
-    private javax.swing.JSeparator spPassword;
-    private javax.swing.JSeparator spUser;
+    private javax.swing.JPasswordField pwdFldPassword;
     private javax.swing.JTextArea taInformation;
-    private javax.swing.JTextField tfAddress;
-    private javax.swing.JTextField tfCitizenName;
-    private javax.swing.JTextField tfCitizenshipNumber;
-    private javax.swing.JTextField tfLicenseNumber;
-    private javax.swing.JTextField tfPlazaLocation;
-    private javax.swing.JTextField tfPlazaName;
-    private javax.swing.JTextField tfState;
-    private javax.swing.JTextField tfUserName;
-    private javax.swing.JTextField tfVehicleNumber;
+    private javax.swing.JTextField txtFldAddress;
+    private javax.swing.JTextField txtFldCitizenName;
+    private javax.swing.JTextField txtFldCitizenshipNumber;
+    private javax.swing.JTextField txtFldLicenseNumber;
+    private javax.swing.JTextField txtFldPlazaLocation;
+    private javax.swing.JTextField txtFldPlazaName;
+    private javax.swing.JTextField txtFldSearch;
+    private javax.swing.JTextField txtFldState;
+    private javax.swing.JTextField txtFldUserName;
+    private javax.swing.JTextField txtFldVehicleCategory;
+    private javax.swing.JTextField txtFldVehicleNumber;
     // End of variables declaration//GEN-END:variables
 
     
